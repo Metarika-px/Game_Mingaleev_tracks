@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Следы - Начало игры</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/start.css" />
+  </head>
+  <body class="start-body">
+    <div class="start-container">
+      <h1 class="game-title">Игра "Следы"</h1>
+      <p class="game-subtitle">
+        Найди правильные следы и докажи, что у тебя зоркий глаз!
+      </p>
+
+      <form id="start-form" class="start-form">
+        <label for="player-name">Введите ваше имя:</label>
+        <input
+          type="text"
+          id="player-name"
+          name="playerName"
+          placeholder="Например, СледопытПРИИНФ03"
+          autocomplete="off"
+        />
+        <p id="name-error" class="error-message" hidden></p>
+        <p class="hint">Если оставить поле пустым, имя будет «Гость».</p>
+        <button type="submit" class="btn-primary">Начать игру</button>
+      </form>
+    </div>
+    <script src="js/main.js"></script>
+  </body>
+</html>

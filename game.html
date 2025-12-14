@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Следы - Игра</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/game.css" />
+    <link rel="stylesheet" href="css/modifiers.css" />
+  </head>
+  <body class="game-body">
+    <header class="game-header">
+      <div class="player-info">
+        <button id="change-player-btn" class="btn-secondary btn-compact">
+          Сменить игрока
+        </button>
+        <span class="player-label">
+          Игрок: <span id="player-name-label"></span>
+        </span>
+      </div>
+      <div class="score-info">Очки: <span id="score-label">0</span></div>
+      <div class="round-info">
+        Раунд: <span id="round-label">1</span> /
+        <span id="round-total-label">5</span>
+      </div>
+      <div class="timer-info">Время: <span id="timer-label">00:00</span></div>
+    </header>
+
+    <section id="level-select" class="level-select">
+      <h2>Выбери уровень</h2>
+      <p id="level-hint" class="level-hint">
+        Уровень "Нормально" и "Сложно" откроются после набора нужного количества
+        очков.
+      </p>
+
+      <div class="level-buttons">
+        <button id="level-easy-btn" class="btn-primary menu-btn">Легко</button>
+        <button id="level-normal-btn" class="btn-secondary menu-btn">
+          Нормально
+        </button>
+        <button id="level-hard-btn" class="btn-secondary menu-btn">
+          Сложно
+        </button>
+      </div>
+
+      <div class="menu-bottom">
+        <button id="leaderboard-btn" class="btn-secondary menu-btn-wide">
+          Таблица лидеров
+        </button>
+      </div>
+
+    </section>
+
+    <div id="game-main-wrapper" class="hidden">
+      <main class="game-main">
+        <section class="question-panel">
+          <h2>Уровень: <span id="level-label">Легко</span></h2>
+          <p id="question-text">
+            Выбери след, который принадлежит этому существу:
+          </p>
+
+          <div class="owner-wrapper">
+            <img id="owner-image" src="" alt="Хозяин следа" />
+            <p id="owner-name"></p>
+          </div>
+        </section>
+
+        <section class="options-panel">
+          <div class="options-actions">
+            <button id="restart-round-btn" class="btn-icon" title="Переиграть раунд">
+              ↺
+            </button>
+          </div>
+          <h3 id="options-title">Выбери след (двойной клик — подтвердить):</h3>
+          <p id="view-mode-hint" class="view-mode-hint hidden">
+            Режим просмотра: нажмите ↺, чтобы переиграть этот раунд.
+          </p>
+          <div id="tracks-container" class="tracks-container"></div>
+
+          <div id="maze-area" class="maze-area hidden">
+            <div class="maze-instruction">
+              Перетащи выбранный след в стартовую клетку (зелёная), затем
+              проведи курсор до выхода (красная), не касаясь стен.
+            </div>
+            <div id="maze" class="maze"></div>
+          </div>
+
+          <div class="end-level-wrapper">
+            <button id="end-level-btn" class="btn-secondary">
+              Завершить уровень
+            </button>
+          </div>
+        </section>
+
+        <aside class="rounds-panel">
+          <h3>Раунды</h3>
+          <div id="rounds-list" class="rounds-list"></div>
+          <p class="rounds-hint">
+            Выберите раунд на который хотите перейти.
+          </p>
+        </aside>
+      </main>
+    </div>
+
+
+    <div id="feedback-overlay" class="feedback-overlay hidden">
+      <div class="feedback-backdrop"></div>
+      <div class="feedback-icon" id="feedback-icon"></div>
+    </div>
+
+    <div id="level-end-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <h2 id="modal-title">Уровень завершён</h2>
+        <p id="modal-text"></p>
+
+        <div class="modal-buttons">
+          <button id="modal-replay-btn" class="btn-primary">
+            Сыграть ещё раз
+          </button>
+          <button id="modal-level-select-btn" class="btn-secondary">
+            Выбор сложности
+          </button>
+          <button id="modal-next-btn" class="btn-secondary">
+            Следующий уровень
+          </button>
+          <button id="modal-leaderboard-btn" class="btn-secondary">
+            Таблица лидеров
+          </button>
+        </div>
+
+        <div id="modal-rounds-picker" class="modal-rounds hidden">
+          <h3>Выбери раунд для повторного запуска</h3>
+          <div id="modal-rounds-list" class="modal-rounds-list"></div>
+          <p class="modal-rounds-hint">
+            Красный — неправильный ответ. Выбери раунд, чтобы начать с него.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="round-select-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-rounds">
+          <h3>Выбери раунд для повторного запуска</h3>
+          <div id="round-select-list" class="modal-rounds-list"></div>
+          <p class="modal-rounds-hint">
+            Красный — неправильный ответ. Выбери раунд, чтобы начать с него.
+          </p>
+          <div class="modal-buttons">
+            <button id="round-select-cancel" class="btn-secondary">
+              Отмена
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/tracks.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+  </body>
+</html>

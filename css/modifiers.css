@@ -1,0 +1,129 @@
+.track-option.mod-rot-15 img {
+  transform: rotate(55deg);
+}
+
+.track-option.mod-rot--15 img {
+  transform: rotate(-55deg);
+}
+
+.track-option.mod-rot-30 img {
+  transform: rotate(85deg);
+}
+
+.track-option.mod-small img {
+  transform: rotate(-8deg);
+}
+
+.track-option.mod-tilt img {
+  transform: rotate(-25deg);
+}
+
+.maze-cursor-img.mod-rot-15 {
+  transform: rotate(55deg);
+}
+
+.maze-cursor-img.mod-rot--15 {
+  transform: rotate(-55deg);
+}
+
+.maze-cursor-img.mod-rot-30 {
+  transform: rotate(85deg);
+}
+
+.maze-cursor-img.mod-small {
+  transform: rotate(-8deg);
+}
+
+.maze-cursor-img.mod-tilt {
+  transform: rotate(-25deg);
+}
+
+.maze-cursor-img.mod-blur {
+  filter: blur(5px);
+}
+
+.maze-cursor-img.mod-cut {}
+.maze-cursor-img.mod-mask {}
+
+.maze-cursor-img.mod-shake {
+  animation: shake-rotate 0.6s ease-in-out infinite;
+}
+
+.maze-cursor-img.mod-spin {
+  animation: spin-360 1.5s linear infinite;
+}
+.track-option.mod-blur img {
+  filter: blur(4px);
+}
+
+.track-option.mod-cut img {
+  clip-path: polygon(
+    0% 15%,
+    0 0,
+    15% 0%,
+    39% 14%,
+    38% 45%,
+    70% 54%,
+    100% 85%,
+    100% 100%,
+    85% 100%,
+    15% 100%,
+    0 100%
+  );
+}
+
+.track-option.mod-mask::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 1) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.track-option.mod-mask:hover::after {
+  opacity: 1;
+}
+
+@keyframes shake-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-45deg);
+  }
+  40% {
+    transform: rotate(45deg);
+  }
+  60% {
+    transform: rotate(-45deg);
+  }
+  80% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.track-option.mod-shake img {
+  animation: shake-rotate 0.6s ease-in-out infinite;
+}
+
+@keyframes spin-360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.track-option.mod-spin img {
+  animation: spin-360 1.5s linear infinite;
+}

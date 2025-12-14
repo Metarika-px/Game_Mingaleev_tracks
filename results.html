@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Следы - Рейтинг игроков</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/results.css" />
+  </head>
+  <body class="results-body">
+    <div class="results-container">
+      <h1>Рейтинг игроков</h1>
+
+      <div class="current-result" id="current-result-block"></div>
+
+      <div class="results-table-wrapper">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Имя</th>
+              <th>Очки</th>
+              <th>Уровень</th>
+              <th>Дата</th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="results-buttons">
+        <button id="play-again-btn" type="button" class="btn-primary">
+          Играть снова
+        </button>
+        <button
+          id="clear-rating-btn"
+          type="button"
+          class="btn-secondary danger"
+        >
+          Очистить рейтинг
+        </button>
+      </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/results.js"></script>
+  </body>
+</html>
