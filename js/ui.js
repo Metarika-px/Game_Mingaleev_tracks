@@ -97,7 +97,8 @@ function uiRenderTrackOptions(
 
   if (optionsTitle) {
     if (mode === "maze") {
-      optionsTitle.textContent = "Выбери след и перетащи его в старт лабиринта:";
+      optionsTitle.textContent =
+        "Выбери след и перетащи его в старт лабиринта:";
     } else if (questionType === "animal") {
       optionsTitle.textContent =
         "Выбери хозяина следа (двойной клик - подтвердить):";

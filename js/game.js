@@ -518,8 +518,7 @@ function startRound() {
   selectedOptionId = null;
   roundLocked = false;
 
-  const questionType =
-    isMazeMode() || Math.random() < 0.5 ? "track" : "animal";
+  const questionType = isMazeMode() || Math.random() < 0.5 ? "track" : "animal";
 
   setQuestionText(questionType);
   uiShowOwner(owner, questionType);
@@ -1182,7 +1181,7 @@ function renderMaze(grid, { onDropToStart, onSuccess, onFail }) {
   if (startCellEl) {
     startCellEl.addEventListener("dragover", (e) => {
       e.preventDefault();
-      e.dataTransfer.img
+      e.dataTransfer.img;
       startCellEl.classList.add("drag-over");
     });
 

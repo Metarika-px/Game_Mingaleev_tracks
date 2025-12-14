@@ -41,6 +41,7 @@ function loadRating() {
 
 function clearRating() {
   localStorage.removeItem("game_results");
+  localStorage.removeItem("roundProgress");
 }
 function getBestScoreForLevel(levelId) {
   const data = JSON.parse(localStorage.getItem("game_results") || "[]");
