@@ -23,24 +23,22 @@ function uiShowOwner(owner, questionType = "track") {
 }
 
 function uiCreateTrackOption(option) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "track-option";
-  wrapper.dataset.id = option.id;
-  wrapper.dataset.correct = option.correct ? "1" : "0";
+  const img = document.createElement("img");
+  img.className = "track-option";
+  img.dataset.id = option.id;
+  img.dataset.correct = option.correct ? "1" : "0";
+  img.src = option.src;
+  img.alt = "След";
+  img.draggable = false;
 
   if (option.cssClass) {
     option.cssClass
       .split(" ")
       .filter(Boolean)
-      .forEach((cls) => wrapper.classList.add(cls));
+      .forEach((cls) => img.classList.add(cls));
   }
 
-  const img = document.createElement("img");
-  img.src = option.src;
-  img.alt = "След";
-
-  wrapper.appendChild(img);
-  return wrapper;
+  return img;
 }
 
 function uiClearSelection() {
@@ -118,6 +116,8 @@ function uiRenderTrackOptions(
         e.stopPropagation();
         onConfirm(el);
       });
+      // избегаем нативного drag изображения
+      el.addEventListener("dragstart", (e) => e.preventDefault());
     } else if (mode === "maze") {
       el.setAttribute("draggable", "true");
       el.addEventListener("dragstart", (e) => {

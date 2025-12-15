@@ -66,23 +66,6 @@ let roundLocked = false;
 let savedLevelProgress = {};
 let restartBtn = null;
 
-function loadRoundProgressFromStorage() {
-  try {
-    const raw = localStorage.getItem("roundProgress");
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") {
-      savedLevelProgress = parsed;
-    }
-  } catch (e) {}
-}
-
-function saveRoundProgressToStorage() {
-  try {
-    localStorage.setItem("roundProgress", JSON.stringify(savedLevelProgress));
-  } catch (e) {}
-}
-
 function calculateScoreFromStates(states) {
   if (!currentConfig) return 0;
   let total = 0;
@@ -105,7 +88,6 @@ function getRandomModifierForRound(round) {
     "mod-rot-30",
     "mod-small",
     "mod-tilt",
-    "mod-blur",
   ];
   const maskMods = ["mod-mask"];
   const blurMods = ["mod-blur"];
@@ -342,7 +324,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleAdminToggle(event) {
-  if (!event.key || event.key.toLowerCase() !== "o") return;
+  if (!event.key) return;
+  const key = event.key.toLowerCase();
+  if (key !== "o" && key !== "щ") return;
   forceUnlockLevels = !forceUnlockLevels;
   setupLevelMenu();
 }
@@ -481,7 +465,7 @@ function startLevel(levelId, reset = false, startFromRound = 1) {
   startRound();
 }
 
-// Р»РѕРіРёРєР° СЂР°СѓРЅРґР°
+// логика раунда
 function startRound() {
   uiClearSelection();
   let existing = roundStates[currentRound];
@@ -766,12 +750,6 @@ function handleConfirmOption(element) {
   }
 
   // Обычные уровни (клик / двойной клик)
-  if (!element) {
-    selectedOptionId = "__wrong__";
-    checkAnswer();
-    return;
-  }
-
   if (!selectedOptionId) {
     handleSelectOption(element);
   }
@@ -902,6 +880,7 @@ function renderModalRounds() {
   if (picker) picker.classList.remove("hidden");
 }
 
+// показ модалки если уровень уже был открыт
 function requestRoundStart(levelId) {
   const gameWrapper = document.getElementById("game-main-wrapper");
   const alreadyPlaying =

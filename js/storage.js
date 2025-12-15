@@ -43,6 +43,22 @@ function clearRating() {
   localStorage.removeItem("game_results");
   localStorage.removeItem("roundProgress");
 }
+function loadRoundProgressFromStorage() {
+  try {
+    const raw = localStorage.getItem("roundProgress");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      savedLevelProgress = parsed;
+    }
+  } catch (e) {}
+}
+
+function saveRoundProgressToStorage() {
+  try {
+    localStorage.setItem("roundProgress", JSON.stringify(savedLevelProgress));
+  } catch (e) {}
+}
 function getBestScoreForLevel(levelId) {
   const data = JSON.parse(localStorage.getItem("game_results") || "[]");
   const playerName = getCurrentPlayerName();

@@ -92,28 +92,20 @@
 }
 
 .track-option {
-  border-radius: 12px;
+  border-radius: 0;
   padding: 0;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.15s;
   border: 2px solid transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   position: relative;
-  min-height: fit-content;
-  height: fit-content;
-  width: fit-content;
+  width: 110px;
+  height: 110px;
   margin: 0;
-}
-
-.track-option img {
-  width: 100%;
-  height: 100%;
-  max-width: 150px;
-  max-height: 144px;
   object-fit: contain;
   transform-origin: center;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 .track-option:hover {
@@ -220,6 +212,7 @@
 .tracks-container.random-abs .track-option {
   position: absolute;
   margin: 0;
+  pointer-events: auto;
 }
 
 .view-mode-hint {

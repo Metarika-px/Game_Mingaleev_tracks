@@ -1,20 +1,20 @@
-.track-option.mod-rot-15 img {
+.track-option.mod-rot-15 {
   transform: rotate(55deg);
 }
 
-.track-option.mod-rot--15 img {
+.track-option.mod-rot--15 {
   transform: rotate(-55deg);
 }
 
-.track-option.mod-rot-30 img {
+.track-option.mod-rot-30 {
   transform: rotate(85deg);
 }
 
-.track-option.mod-small img {
-  transform: rotate(-8deg);
+.track-option.mod-small {
+  transform: scale(0.7) rotate(-8deg);
 }
 
-.track-option.mod-tilt img {
+.track-option.mod-tilt {
   transform: rotate(-25deg);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .maze-cursor-img.mod-small {
-  transform: rotate(-8deg);
+  transform: scale(0.7) rotate(-8deg);
 }
 
 .maze-cursor-img.mod-tilt {
@@ -49,11 +49,11 @@
 .maze-cursor-img.mod-spin {
   animation: spin-360 1.5s linear infinite;
 }
-.track-option.mod-blur img {
+.track-option.mod-blur {
   filter: blur(4px);
 }
 
-.track-option.mod-cut img {
+.track-option.mod-cut {
   clip-path: polygon(
     0% 15%,
     0 0,
@@ -69,22 +69,25 @@
   );
 }
 
-.track-option.mod-mask::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
+.track-option.mod-mask {
+  -webkit-mask-image: repeating-linear-gradient(
     45deg,
-    rgba(0, 0, 0, 1),
-    rgba(0, 0, 0, 1) 6px,
+    #000 0,
+    #000 6px,
     transparent 6px,
     transparent 12px
   );
-}
-
-.track-option.mod-mask:hover::after {
-  opacity: 1;
+  mask-image: repeating-linear-gradient(
+    45deg,
+    #000 0,
+    #000 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  -webkit-mask-size: 12px 12px;
+  mask-size: 12px 12px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
 }
 
 @keyframes shake-rotate {
@@ -108,7 +111,7 @@
   }
 }
 
-.track-option.mod-shake img {
+.track-option.mod-shake {
   animation: shake-rotate 0.6s ease-in-out infinite;
 }
 
@@ -121,6 +124,6 @@
   }
 }
 
-.track-option.mod-spin img {
+.track-option.mod-spin {
   animation: spin-360 1.5s linear infinite;
 }
