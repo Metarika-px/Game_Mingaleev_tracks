@@ -36,6 +36,12 @@
   padding: 6px 12px;
   font-size: 12px;
 }
+.btn-compact.menu-btn {
+  min-width: 140px;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 999px;
+}
 
 .timer-info {
   font-weight: 600;
@@ -271,17 +277,20 @@
 
 @keyframes option-drift {
   0% {
-    transform: translate3d(0, 0, 0) rotate(var(--opt-rot)) scale(var(--opt-scale));
+    transform: translate3d(0, 0, 0) rotate(var(--opt-rot))
+      scale(var(--opt-scale));
   }
   50% {
     transform: translate3d(var(--dx, 6px), var(--dy, 6px), 0)
-      rotate(var(--opt-rot))
-      scale(var(--opt-scale));
+      rotate(var(--opt-rot)) scale(var(--opt-scale));
   }
   100% {
-    transform: translate3d(calc(var(--dx, 6px) * 1.25), calc(var(--dy, 6px) * 1.25), 0)
-      rotate(var(--opt-rot))
-      scale(var(--opt-scale));
+    transform: translate3d(
+        calc(var(--dx, 6px) * 1.25),
+        calc(var(--dy, 6px) * 1.25),
+        0
+      )
+      rotate(var(--opt-rot)) scale(var(--opt-scale));
   }
 }
 
@@ -321,9 +330,10 @@
 
 /* Меню выбора уровня */
 .level-select {
+  backdrop-filter: blur(12px);
   margin: 40px auto 0;
   max-width: 600px;
-  background: rgba(20, 20, 20, 0.9);
+  background: rgb(255 255 255 / 0%);
   border-radius: 16px;
   padding: 24px 28px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
@@ -454,7 +464,11 @@
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translate3d(calc(var(--dx, 0px) * 0.55), calc(var(--dy, 0px) * 0.55), 0)
+    transform: translate3d(
+        calc(var(--dx, 0px) * 0.55),
+        calc(var(--dy, 0px) * 0.55),
+        0
+      )
       rotate(7deg);
   }
   100% {
