@@ -273,10 +273,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initFloatingBackground();
 
   // показать заметки следопыта при первом заходе на страницу
-  const hasSeenInstruction = localStorage.getItem("seenInstructionModal");
+  const hasSeenInstruction = sessionStorage.getItem("seenInstructionModal");
   if (!hasSeenInstruction) {
     showInstructionModal();
-    localStorage.setItem("seenInstructionModal", "1");
+    sessionStorage.setItem("seenInstructionModal", "1");
   }
 
   toggleHeaderStats(false);
@@ -534,7 +534,9 @@ function startRound() {
       roundLocked = false;
       setQuestionText(existing.questionType || "track");
       uiShowOwner(existing.owner, existing.questionType || "track");
-      renderRoundFromState(existing, false);
+      renderRoundFromState(existing, false, {
+        reactionConfig: existing.reactionConfig || null,
+      });
       if (!isMazeMode() && currentGameMode === "quiz") {
         applyQuizMotion(currentRound);
       } else {
@@ -636,9 +638,10 @@ function startRound() {
     const desired = getReactionOptionsCount(currentLevelId);
     const correctOpt = options.find((o) => o.correct);
     const wrong = shuffle(options.filter((o) => !o.correct));
-    const limited = [correctOpt, ...wrong.slice(0, Math.max(0, desired - 1))].filter(
-      Boolean
-    );
+    const limited = [
+      correctOpt,
+      ...wrong.slice(0, Math.max(0, desired - 1)),
+    ].filter(Boolean);
     options = shuffle(limited);
   }
   const reactionConfig = {
@@ -656,6 +659,7 @@ function startRound() {
     correctId: owner.id,
     selectedId: null,
     result: null,
+    reactionConfig: isReaction ? reactionConfig : null,
   };
   viewingRound = null;
 
@@ -692,7 +696,11 @@ function renderRoundFromState(state, viewOnly = false, extra = {}) {
   selectedOptionId = viewOnly ? state.selectedId : null;
   roundLocked = viewOnly || state.result !== null;
 
-  const mode = viewOnly ? "click" : state.mode;
+  const mode = viewOnly
+    ? state.mode === "maze"
+      ? "maze-view"
+      : "click"
+    : state.mode;
   setQuestionText(state.questionType || "track");
   uiShowOwner(state.owner, state.questionType || "track");
 
@@ -706,18 +714,49 @@ function renderRoundFromState(state, viewOnly = false, extra = {}) {
 
   const container = document.getElementById("tracks-container");
   if (container) {
-    if (viewOnly) container.classList.add("view-only");
-    else container.classList.remove("view-only");
+    if (viewOnly && state.mode === "maze") {
+      container.classList.add("hidden");
+    } else {
+      container.classList.remove("hidden");
+      if (viewOnly) container.classList.add("view-only");
+      else container.classList.remove("view-only");
+    }
   }
 
   if (viewOnly) {
-    const mazeArea = document.getElementById("maze-area");
-    if (mazeArea) mazeArea.classList.add("hidden");
-    applyRoundSelectionState(state);
+    if (state.mode === "maze") {
+      const mazeArea = document.getElementById("maze-area");
+      if (mazeArea) mazeArea.classList.remove("hidden");
+      const dims = getMazeDimensions(state.round || currentRound, currentLevelId);
+      startMazePhase({
+        rows: dims.rows,
+        cols: dims.cols,
+        onDropToStart: () => {},
+        onSuccess: () => {},
+        onFail: () => {},
+      });
+    } else {
+      const mazeArea = document.getElementById("maze-area");
+      if (mazeArea) mazeArea.classList.add("hidden");
+      applyRoundSelectionState(state);
+    }
   }
 
   if (state.mode === "reaction" && !viewOnly) {
-    startReactionFlow(state, extra?.reactionConfig || {});
+    const cfg =
+      extra?.reactionConfig ||
+      state.reactionConfig || {
+        ttl: getReactionTTL(state.round || currentRound, currentLevelId),
+        spawnInterval: getReactionSpawnInterval(
+          state.round || currentRound,
+          currentLevelId
+        ),
+        maxSpawns: getReactionMaxSpawns(
+          state.round || currentRound,
+          currentLevelId
+        ),
+      };
+    startReactionFlow(state, cfg);
   }
 
   const hint = document.getElementById("view-mode-hint");
@@ -1273,6 +1312,9 @@ function cloneRoundStates(states) {
           ...s,
           owner: { ...s.owner },
           options: s.options ? s.options.map((o) => ({ ...o })) : [],
+          reactionConfig: s.reactionConfig
+            ? { ...s.reactionConfig }
+            : null,
         }
       : s
   );
@@ -1648,11 +1690,13 @@ function startReactionFlow(state, config) {
     reactionSpawns++;
 
     // выбираем случайную опцию, избегая повтора подряд
-    let opt = reactionOptions[Math.floor(Math.random() * reactionOptions.length)];
+    let opt =
+      reactionOptions[Math.floor(Math.random() * reactionOptions.length)];
     if (reactionOptions.length > 1) {
       let attempts = 0;
       while (opt.id === reactionLastId && attempts < 10) {
-        opt = reactionOptions[Math.floor(Math.random() * reactionOptions.length)];
+        opt =
+          reactionOptions[Math.floor(Math.random() * reactionOptions.length)];
         attempts++;
       }
     }
