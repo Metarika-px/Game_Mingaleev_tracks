@@ -52,9 +52,6 @@ let modalText = null;
 let modalReplayBtn = null;
 let modalLevelSelectBtn = null;
 let modalLeaderboardBtn = null;
-let roundSelectModal = null;
-let roundSelectList = null;
-let roundSelectCancel = null;
 let feedbackTimeoutId = null;
 let feedbackHideTimeoutId = null;
 let audioCtx = null;
@@ -193,7 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const nameLabel = document.getElementById("player-name-label");
+  const totalLabel = document.getElementById("player-total-label");
   if (nameLabel) nameLabel.textContent = playerName;
+  if (totalLabel) {
+    const bestOverall = getTotalBestScore(playerName);
+    totalLabel.textContent = bestOverall;
+  }
   const changePlayerBtn = document.getElementById("change-player-btn");
   if (changePlayerBtn) {
     changePlayerBtn.addEventListener("click", () => {
@@ -209,9 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
   modalLevelSelectBtn = document.getElementById("modal-level-select-btn");
   modalLeaderboardBtn = document.getElementById("modal-leaderboard-btn");
   modalRoundsListEl = document.getElementById("modal-rounds-list");
-  roundSelectModal = document.getElementById("round-select-modal");
-  roundSelectList = document.getElementById("round-select-list");
-  roundSelectCancel = document.getElementById("round-select-cancel");
   roundsListEl = document.getElementById("rounds-list");
   restartBtn = document.getElementById("restart-round-btn");
   instructionModal = document.getElementById("instruction-modal");
@@ -237,12 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (modalLeaderboardBtn) {
     modalLeaderboardBtn.addEventListener("click", () => {
       window.location.href = "results.html";
-    });
-  }
-
-  if (roundSelectCancel && roundSelectModal) {
-    roundSelectCancel.addEventListener("click", () => {
-      hideRoundSelectModal();
     });
   }
 
@@ -371,8 +364,7 @@ function updateBestScoreLabel() {
   if (!label) return;
   const best = getBestScoreForLevel(currentLevelId, currentGameMode);
   const modeName = MODE_TITLES[currentGameMode] || currentGameMode;
-  const levelName = LEVELS[currentLevelId]?.name || currentLevelId;
-  label.textContent = `Лучший результат (${modeName}, ${levelName}): ${best}`;
+  label.textContent = `Лучший результат ${modeName}: ${best}`;
 }
 
 function initFloatingBackground() {
@@ -1112,18 +1104,12 @@ function requestRoundStart(levelId, mode = currentGameMode) {
     gameWrapper &&
     !gameWrapper.classList.contains("hidden");
   if (alreadyPlaying) {
-    hideRoundSelectModal();
     hideEndModal();
     return;
   }
 
   const saved = savedLevelProgress[getProgressKey(levelId, mode)];
-  if (saved && saved.roundStates && saved.roundStates.length) {
-    showRoundSelectModal(levelId, saved.roundStates, mode);
-  } else {
-    hideRoundSelectModal();
-    startLevel(levelId, true, 1, mode);
-  }
+  startLevel(levelId, true, 1, mode);
 }
 
 function showRoundSelectModal(
@@ -1131,33 +1117,7 @@ function showRoundSelectModal(
   savedStates = [],
   mode = currentGameMode
 ) {
-  if (!roundSelectModal || !roundSelectList) {
-    startLevel(levelId, true, 1, mode);
-    return;
-  }
-  roundSelectList.innerHTML = "";
-  const total = LEVELS[levelId]?.rounds || 5;
-  for (let i = 1; i <= total; i++) {
-    const btn = document.createElement("button");
-    btn.className = "round-chip";
-    btn.textContent = `Раунд ${i}`;
-    const st = savedStates[i];
-    if (st && st.result !== null) {
-      btn.dataset.status = st.result ? "win" : "fail";
-    }
-    btn.addEventListener("click", () => {
-      hideRoundSelectModal();
-      startLevel(levelId, false, i, mode);
-    });
-    roundSelectList.appendChild(btn);
-  }
-  roundSelectModal.classList.remove("hidden");
-}
-
-function hideRoundSelectModal() {
-  if (roundSelectModal) {
-    roundSelectModal.classList.add("hidden");
-  }
+  startLevel(levelId, true, 1, mode);
 }
 
 function getOptionClassForTrack(trackId) {

@@ -19,6 +19,7 @@
         </button>
         <span class="player-label">
           Игрок: <span id="player-name-label"></span>
+          <span class="player-score">/ Очки: <span id="player-total-label">0</span></span>
         </span>
       </div>
       <div class="score-info">Очки: <span id="score-label">0</span></div>
@@ -168,24 +169,6 @@
           <p class="modal-rounds-hint">
             Красный - неправильный ответ. Выбери раунд, чтобы начать с него.
           </p>
-        </div>
-      </div>
-    </div>
-
-    <div id="round-select-modal" class="modal hidden">
-      <div class="modal-backdrop"></div>
-      <div class="modal-content">
-        <div class="modal-rounds">
-          <h3>Выбери раунд для повторного запуска</h3>
-          <div id="round-select-list" class="modal-rounds-list"></div>
-          <p class="modal-rounds-hint">
-            Красный - неправильный ответ. Выбери раунд, чтобы начать с него.
-          </p>
-          <div class="modal-buttons">
-            <button id="round-select-cancel" class="btn-secondary">
-              Отмена
-            </button>
-          </div>
         </div>
       </div>
     </div>

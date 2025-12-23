@@ -77,3 +77,20 @@ function getBestScoreForLevel(levelId, mode) {
   }
   return best;
 }
+
+// сумма лучших результатов игрока по каждому уровню/режиму
+function getTotalBestScore(name) {
+  const data = JSON.parse(localStorage.getItem("game_results") || "[]");
+  const bestPerKey = new Map();
+  data.forEach((rec) => {
+    if (rec.name !== name) return;
+    const key = rec.level || "unknown";
+    const prev = bestPerKey.get(key);
+    if (!prev || rec.score > prev) {
+      bestPerKey.set(key, rec.score);
+    }
+  });
+  let total = 0;
+  bestPerKey.forEach((v) => (total += v));
+  return total;
+}

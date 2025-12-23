@@ -41,6 +41,7 @@
   padding: 8px 14px;
   font-size: 13px;
   border-radius: 999px;
+  user-select: none;
 }
 
 .timer-info {
@@ -72,9 +73,10 @@
   display: flex;
   flex-direction: column;
   background: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(4px);
   border-radius: 14px;
   padding: 24px 28px;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 18px rgba(85, 85, 85, 0.7);
   min-height: 65vh;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -336,7 +338,7 @@
   background: rgb(255 255 255 / 0%);
   border-radius: 16px;
   padding: 24px 28px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 18px rgba(85, 85, 85, 0.7);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -740,8 +742,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1200;
-  pointer-events: none;
+  z-index: 2000;
+  pointer-events: auto;
 }
 
 .feedback-overlay.hidden {
